@@ -20,6 +20,8 @@ function validaCPF(cpf) {
         return false;
     }
     cpf = cpf.trim();
+    console.log(cpf)
+    
 
     // Valida se o CPF possui letras
     if(/[a-zA-Z]/.test(cpf)) {
@@ -39,7 +41,17 @@ function validaCPF(cpf) {
         return false;
     }
 
-    
+    //validar o penúltimo digito do cpf
+    let soma = 0;
+    for (let i = 1 ; i <= 9 ; i++) {
+        soma = soma + (cpf.charAt(i - 1) * (10 - (i-1)))
+    }    
+    console.log(soma)
+
+    let newSoma = soma%11
+    console.log(newSoma)
+
+
 
     return true;
 }
