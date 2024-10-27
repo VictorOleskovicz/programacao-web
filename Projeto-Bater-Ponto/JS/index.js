@@ -8,8 +8,7 @@ const btnBaterPonto = document.getElementById("btn-bater-ponto");
 btnBaterPonto.addEventListener("click", register)
 
 const btnFecharPonto = document.getElementById("btn-fechar-dialog");
-btnFecharPonto.addEventListener("click", exit
-)
+btnFecharPonto.addEventListener("click", () => {dialogPonto.close();});
 
 
 diaSemana.textContent = getWeekDay();
@@ -71,6 +70,8 @@ setInterval(printCurrentHour, 1000);
 
 
 function register() {
+    document.getElementById("dialog-data").textContent = getCurrentDate();
+    document.getElementById("dialog-hora").textContent = getCurrentHour();
     dialogPonto.showModal();
 };
 
