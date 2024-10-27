@@ -5,24 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Controle de Ponto</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class = "data-hora ">
+    <div id="alerta-registro-ponto" class="hidden">
+        <p>Ponto registrado com sucesso</p>
+        <button id="alerta-registro-ponto-fechar">X</button>
+    </div>
+    <div class="data-hora">
         <p id="dia-semana"></p>
-        <p id="dias-mes-ano"></p>
+        <p id="dia-mes-ano"></p>
         <p id="hora-min-seg"></p>
     </div>
-    <button id ="btn-bater-ponto">Bater Ponto !</button>
+    <div id="div-btn-bater-ponto">
+        <button id="btn-bater-ponto">Bater ponto!</button>
+    </div>
+    <div id="alerta-registro-ponto" class="hidden">
+        <p>Ponto registrado com sucesso</p>
+        <button id="alerta-registro-ponto-fechar">X</button>
+    </div>
     <dialog id="dialog-ponto">
         <p id="dialog-data"></p>
         <p id="dialog-hora"></p>
-        <button>Entrada</button>
-        <button>Intervalo</button>
-        <button>Volta Intervalo</button>
-        <button>Saida do Ponto</button>
-        <button id="btn-fechar-dialog">X</button>
+        <select name="tipos-ponto" id="tipos-ponto">
+            <option value="entrada">Entrada</option>
+            <option value="intervalo">Intervalo</option>
+            <option value="volta-intervalo">Volta Intervalo</option>
+            <option value="saida">Saída</option>
+        </select>
+        <button id="btn-dialog-bater-ponto">Registrar ponto</button>
+        <button id="btn-historic-date">Registrar no Passado</button>
+        <input type="file" id="file-justification" accept=".jpg, .png, .pdf">
+        <p id="dialog-last-register"></p>
+        <button id="btn-dialog-fechar">X</button>
     </dialog>
-    <script src="js/index.js"></script>
-    
+    <!-- TO-DO: -->
+    <!-- criar histórico dos últimos n registros-->
+    <script src="JS/index.js"></script>
 </body>
 </html>

@@ -1,11 +1,103 @@
 .data-hora {
     text-align: center;
-
+    font-family: "Nanum Gothic Coding", monospace;
+    font-weight: 400;
+    font-style: normal;
 }
 
-#btn-fechar-dialog {
+#btn-dialog-fechar {
     position: absolute;
     top: 0;
     right: 0;
+}
 
+#alerta-registro-ponto {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: green;
+    color: white;
+    padding: 15px;
+    border-radius: 5px;
+    font-size: 1rem;
+    display: none; /* Mantém oculto por padrão */
+}
+
+#alerta-registro-ponto.show {
+    display: block; /* Exibe o alerta quando a classe "show" é adicionada */
+}
+
+#alerta-registro-ponto.hidden {
+    display: none; /* Oculta o alerta quando a classe "hidden" é adicionada */
+}
+
+#alerta-registro-ponto p {
+    margin: 0;
+    font-size: 1rem;
+    text-align: center;
+}
+
+#alerta-registro-ponto button {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+
+#div-btn-bater-ponto {
+    text-align: center;
+}
+
+#btn-bater-ponto {
+    padding: 20px;
+    background-color: blue;
+    color: white;
+    font-size: 1.3rem;
+    border: 0px;
+}
+
+.data-hora p {
+    font-size: 2rem; 
+}
+
+#dialog-ponto p {
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#dialog-ponto select {
+    padding: 20px;
+    font-size: 1.3rem;
+}
+
+#btn-dialog-bater-ponto {
+    padding: 20px;
+    font-size: 1.3rem;
+}
+#dialog-ponto {
+    text-align: center;
+    padding: 20px;
+    border-radius: 8px;
+    width: 300px;
+}
+
+#file-justification {
+    margin-top: 10px;
+}
+
+#tipos-ponto {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+
+#btn-dialog-bater-ponto, #btn-dialog-fechar {
+    padding: 10px;
+    font-size: 1.2rem;
+    margin-top: 10px;
 }
