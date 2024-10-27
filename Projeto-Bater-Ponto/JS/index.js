@@ -26,7 +26,51 @@ const nextRegister = {
     "saida": "entrada"
 };
 
-let registerLocalStorage = getRegisterLocalStorage();
+// Seleção dos elementos de justificativa
+const btnJustificarAusencia = document.getElementById("btn-justificar-ausencia");
+const divJustificativa = document.getElementById("div-justificativa");
+const btnEnviarJustificativa = document.getElementById("btn-enviar-justificativa");
+const justificativaTexto = document.getElementById("justificativa-texto");
+const justificativaArquivo = document.getElementById("justificativa-arquivo");
+
+// Campo para observação
+const observacaoTexto = document.getElementById("observacao-texto");
+
+// Exibe o campo de justificativa e upload de arquivo ao clicar no botão "Justificar Ausência"
+btnJustificarAusencia.addEventListener("click", () => {
+    divJustificativa.classList.remove("hidden");
+});
+
+// Função para registrar a justificativa e salvar no LocalStorage
+btnEnviarJustificativa.addEventListener("click", () => {
+    const justificativa = justificativaTexto.value;
+    const arquivo = justificativaArquivo.files[0] ? justificativaArquivo.files[0].name : null;
+
+    if (!justificativa && !arquivo) {
+        alert("Por favor, insira uma justificativa ou selecione um arquivo.");
+        return;
+    }
+
+    // Criar o objeto de justificativa de ausência
+    const ausencia = {
+        date: getCurrentDate(),
+        time: getCurrentHour(),
+        type: "Ausência",
+        justificativa: justificativa,
+        arquivo: arquivo
+    };
+
+    // Salvar a justificativa de ausência no LocalStorage
+    saveRegisterLocalStorage(ausencia);
+
+    // Limpar os campos de justificativa
+    justificativaTexto.value = "";
+    justificativaArquivo.value = "";
+
+    // Ocultar a seção de justificativa e mostrar o alerta de sucesso
+    divJustificativa.classList.add("hidden");
+    showAlert();
+});
 
 // Função para exibir o alerta temporariamente ao registrar o ponto
 function showAlert() {
@@ -118,21 +162,22 @@ function setHistoricDate() {
 const btnDialogBaterPonto = document.getElementById("btn-dialog-bater-ponto");
 btnDialogBaterPonto.addEventListener("click", async () => {
     const typeRegister = document.getElementById("tipos-ponto");
-
+    const observacao = observacaoTexto.value;
     let userCurrentPosition = await getCurrentPosition();
 
     let ponto = {
-        "data": getCurrentDate(),
-        "hora": getCurrentHour(),
-        "localizacao": userCurrentPosition,
-        "id": 1,
-        "tipo": typeRegister.value
+        data: getCurrentDate(),
+        hora: getCurrentHour(),
+        localizacao: userCurrentPosition,
+        tipo: typeRegister.value,
+        observacao: observacao || null
     }
 
     saveRegisterLocalStorage(ponto);
 
     localStorage.setItem("lastDateRegister", ponto.data);
     localStorage.setItem("lastTimeRegister", ponto.hora);
+    observacaoTexto.value = ""; // Limpar observação após salvar
 
     dialogPonto.close();
 
@@ -140,36 +185,33 @@ btnDialogBaterPonto.addEventListener("click", async () => {
     showAlert();
 });
 
+// Função para salvar registros no LocalStorage
 function saveRegisterLocalStorage(register) {
-    const typeRegister = document.getElementById("tipos-ponto");
-    registerLocalStorage.push(register); // Array
-    localStorage.setItem("register", JSON.stringify(registerLocalStorage));
-    localStorage.setItem("lastTypeRegister", typeRegister.value);
-} 
+    let registers = JSON.parse(localStorage.getItem("register")) || [];
+    registers.push(register);
+    localStorage.setItem("register", JSON.stringify(registers));
+    
+    if (register.type !== "Ausência") {
+        const typeRegister = document.getElementById("tipos-ponto");
+        localStorage.setItem("lastTypeRegister", typeRegister.value);
+    }
+}
 
 function getRegisterLocalStorage() {
     let registers = localStorage.getItem("register");
-
-    if (!registers) {
-        return [];
-    }
-
-    return JSON.parse(registers); 
+    return registers ? JSON.parse(registers) : [];
 }
 
 // Função auxiliar para obter a localização do usuário
 async function getCurrentPosition() {
     return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition((position) => {
-            let userLocation = {
-                "latitude": position.coords.latitude,
-                "longitude": position.coords.longitude
-            }
-            resolve(userLocation);
-        },
-        (error) => {
-            reject("Erro ao recuperar a localização " + error);
-        });
+        navigator.geolocation.getCurrentPosition(
+            (position) => resolve({
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+            }),
+            (error) => reject("Erro ao recuperar a localização: " + error)
+        );
     });
 }
 
